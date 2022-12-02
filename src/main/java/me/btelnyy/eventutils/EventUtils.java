@@ -1,22 +1,22 @@
-package me.btelnyy.mcexampleplugin;
+package me.btelnyy.eventutils;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.btelnyy.mcexampleplugin.constants.ConfigData;
-import me.btelnyy.mcexampleplugin.listener.EventListener;
-import me.btelnyy.mcexampleplugin.service.file_manager.Configuration;
-import me.btelnyy.mcexampleplugin.service.file_manager.FileID;
-import me.btelnyy.mcexampleplugin.service.file_manager.FileManager;
+import me.btelnyy.eventutils.constants.ConfigData;
+import me.btelnyy.eventutils.listener.EventListener;
+import me.btelnyy.eventutils.service.file_manager.Configuration;
+import me.btelnyy.eventutils.service.file_manager.FileID;
+import me.btelnyy.eventutils.service.file_manager.FileManager;
 
 import java.util.logging.Level;
 
-public class McExmaplePlugin extends JavaPlugin {
+public class EventUtils extends JavaPlugin {
 
     // An instance of the plugin, so we don't need to make everything static
-    private static McExmaplePlugin instance;
+    private static EventUtils instance;
 
     private Configuration config;
     private ConfigData configData;
@@ -54,7 +54,7 @@ public class McExmaplePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EventListener(), this);
 
         // GitHub message
-        getLogger().info("Check out the project on GitHub! https://github.com/BTELNYY/btelnyy-mcexmapleplugin");
+        getLogger().info("Check out the project on GitHub! https://github.com/BTELNYY/btelnyy-eventutils");
     }
     @Override
     public void onDisable(){
@@ -98,7 +98,7 @@ public class McExmaplePlugin extends JavaPlugin {
         command.setExecutor(commandExecutor);
     }
 
-    public static McExmaplePlugin getInstance() {
+    public static EventUtils getInstance() {
         return instance;
     }
 

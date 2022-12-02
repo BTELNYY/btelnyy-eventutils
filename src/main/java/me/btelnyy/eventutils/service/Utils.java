@@ -1,4 +1,4 @@
-package me.btelnyy.mcexampleplugin.service;
+package me.btelnyy.eventutils.service;
 
 import java.util.Arrays;
 

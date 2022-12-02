@@ -1,5 +1,5 @@
-name: btelnyy-mcexmapleplugin
-main: me.btelnyy.mcexampleplugin.McExamplePlugin
+name: btelnyy-eventutils
+main: me.btelnyy.eventutils.EventUtils
 version: 1.0.0
 api-version: 1.19
 commands:

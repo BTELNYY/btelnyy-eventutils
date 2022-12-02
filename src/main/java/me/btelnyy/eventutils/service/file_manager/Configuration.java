@@ -1,11 +1,11 @@
-package me.btelnyy.mcexampleplugin.service.file_manager;
+package me.btelnyy.eventutils.service.file_manager;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import me.btelnyy.mcexampleplugin.McExmaplePlugin;
+import me.btelnyy.eventutils.EventUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public class Configuration {
-    private static final Plugin instance = McExmaplePlugin.getInstance();
+    private static final Plugin instance = EventUtils.getInstance();
     private final ConfigurationSection config;
     private boolean log = true;
 

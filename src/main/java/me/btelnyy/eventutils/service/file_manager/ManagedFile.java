@@ -1,4 +1,4 @@
-package me.btelnyy.mcexampleplugin.service.file_manager;
+package me.btelnyy.eventutils.service.file_manager;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;

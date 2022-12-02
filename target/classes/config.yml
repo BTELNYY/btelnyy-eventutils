@@ -1,3 +1,4 @@
-exmaple_string: "cool string"
-example_bool: true
-example_int: 0
+# Same world death messages?
+use_per_world_death_msg: true
+# Show only tablist for those in your world?
+use_per_world_tablist: true
