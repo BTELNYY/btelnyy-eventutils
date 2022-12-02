@@ -1,0 +1,5 @@
+name: btelnyy-mcexmapleplugin
+main: me.btelnyy.mcexampleplugin.McExamplePlugin
+version: ${project.version}
+api-version: 1.19
+commands:
