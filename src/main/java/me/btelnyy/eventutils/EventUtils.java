@@ -5,6 +5,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.btelnyy.eventutils.commands.CommandHub;
 import me.btelnyy.eventutils.constants.ConfigData;
 import me.btelnyy.eventutils.listener.EventListener;
 import me.btelnyy.eventutils.service.file_manager.Configuration;
@@ -43,6 +44,8 @@ public class EventUtils extends JavaPlugin {
         }
 
         // Register commands
+        registerCommandExecutor("hub", new CommandHub());
+
 
         // SnakeYAML fix
         Thread.currentThread().setContextClassLoader(this.getClassLoader());

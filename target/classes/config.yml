@@ -2,3 +2,7 @@
 use_per_world_death_msg: true
 # Show only tablist for those in your world?
 use_per_world_tablist: true
+# Show Chat only to the people in the same world?
+use_per_world_chat: true
+# Hub world name, known to minecraft so whatever the folder is called
+hub_world_name: "hub"

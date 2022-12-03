@@ -3,3 +3,9 @@ main: me.btelnyy.eventutils.EventUtils
 version: 1.0.0
 api-version: 1.19
 commands:
+    hub:
+        description: Go to hub
+        usage: /hub
+        aliases:
+        - quit
+        permission: btelnyy.command.hub

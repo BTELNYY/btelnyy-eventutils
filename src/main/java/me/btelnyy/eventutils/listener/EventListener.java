@@ -11,13 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.injector.PacketConstructor;
 
 import me.btelnyy.eventutils.EventUtils;
 import me.btelnyy.eventutils.constants.ConfigData;
@@ -31,6 +31,18 @@ public class EventListener implements Listener {
     public void OnPlayerDeath(PlayerDeathEvent event){
         if(ConfigData.getInstance().PerWorldDeathMsg){
             PlayerDeathMessageModifier(event);
+        }
+    }
+
+    public void OnPlayerChat(AsyncPlayerChatEvent event){
+        if(ConfigData.getInstance().PerWorldChat){
+            Player sender = event.getPlayer();
+            World world = sender.getWorld();
+            for(Player p : event.getRecipients()){
+                if(p.getWorld() != world){
+                    event.getRecipients().remove(p);
+                }
+            }
         }
     }
 
