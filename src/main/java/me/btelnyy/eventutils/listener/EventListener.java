@@ -92,7 +92,7 @@ public class EventListener implements Listener {
         container.getSpecificModifier(int.class).write(1, Bukkit.getOnlinePlayers().size());
         Object[] propertiesarr = { p.getName(), "", false};
         Object[] array = { p.getUniqueId(), p.getName(), 3, propertiesarr, p.getGameMode().ordinal(), p.getPing(), true, false};
-        container.getSpecificModifier(Object[].class).write(0, array);
+        container.getSpecificModifier(Object[].class).write(2, array);
         for(Player onlinep : targets){
             try {
                 manager.sendServerPacket(onlinep, container);
