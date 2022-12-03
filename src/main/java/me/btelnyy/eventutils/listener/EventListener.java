@@ -14,13 +14,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
+import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 
 import me.btelnyy.eventutils.EventUtils;
 import me.btelnyy.eventutils.constants.ConfigData;
+import me.btelnyy.eventutils.data.WrapperPlayServerPlayerInfo;
 import me.btelnyy.eventutils.service.file_manager.Configuration;
 import me.btelnyy.eventutils.service.file_manager.FileID;
 
@@ -76,39 +78,35 @@ public class EventListener implements Listener {
         }
     }
 
-    private static void HidePlayerFromTargets(Player p, List<Player> targets){
-        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        //Create new packet
-        PacketContainer container = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        //Tell the client to remove the player from tablist
-        container.getSpecificModifier(int.class).write(0, 4);
-        //set size of players
-        container.getSpecificModifier(int.class).write(1, Bukkit.getOnlinePlayers().size() - 1);
-        //tell the player to remove
-        Object[] packet = { p.getUniqueId(), 4 };
-        container.getSpecificModifier(Object[].class).write(2, packet);
+    private static void HidePlayerFromTargets(Player p, List<Player> targets){;
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
+        packet.setAction(PlayerInfoAction.REMOVE_PLAYER);
+        WrappedChatComponent chat = WrappedChatComponent.fromText(p.getDisplayName());
+        PlayerInfoData data = new PlayerInfoData(WrappedGameProfile.fromPlayer(p), p.getPing(), NativeGameMode.SURVIVAL, chat);
+        List<PlayerInfoData> array = new ArrayList<PlayerInfoData>();
+        array.add(data);
+        packet.setData(array);
         for(Player onlinep : targets){
             try {
-                manager.sendServerPacket(onlinep, container);
-            } catch (InvocationTargetException e) {
+                packet.sendPacket(onlinep);
+            } catch (Exception e) {
                 EventUtils.getInstance().log(Level.SEVERE, "Failed to send message to client! " +  e.toString());
             }
         }
     }
 
     private static void ShowPlayerForTargets(Player p, List<Player> targets){
-        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        //Create new packet
-        PacketContainer container = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        container.getSpecificModifier(int.class).write(0, 0);
-        container.getSpecificModifier(int.class).write(1, Bukkit.getOnlinePlayers().size());
-        Object[] propertiesarr = { p.getName(), "", false};
-        Object[] array = { p.getUniqueId(), p.getName(), 3, propertiesarr, p.getGameMode().ordinal(), p.getPing(), true, false};
-        container.getSpecificModifier(Object[].class).write(2, array);
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
+        packet.setAction(PlayerInfoAction.ADD_PLAYER);
+        WrappedChatComponent chat = WrappedChatComponent.fromText(p.getDisplayName());
+        PlayerInfoData data = new PlayerInfoData(WrappedGameProfile.fromPlayer(p), p.getPing(), NativeGameMode.SURVIVAL, chat);
+        List<PlayerInfoData> array = new ArrayList<PlayerInfoData>();
+        array.add(data);
+        packet.setData(array);
         for(Player onlinep : targets){
             try {
-                manager.sendServerPacket(onlinep, container);
-            } catch (InvocationTargetException e) {
+                packet.sendPacket(onlinep);
+            } catch (Exception e) {
                 EventUtils.getInstance().log(Level.SEVERE, "Failed to send message to client! " +  e.toString());
             }
         }

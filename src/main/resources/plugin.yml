@@ -1,7 +1,8 @@
 name: btelnyy-eventutils
 main: me.btelnyy.eventutils.EventUtils
 version: ${project.version}
-api-version: 1.19
+depend: [ProtocolLib]
+api-version: 1.18
 commands:
     hub:
         description: Go to hub
