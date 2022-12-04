@@ -3,6 +3,7 @@ package me.btelnyy.eventutils.listener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
@@ -35,6 +37,26 @@ public class EventListener implements Listener {
             PlayerDeathMessageModifier(event);
         }
     }
+
+
+    @EventHandler
+    public void OnPlayerJoin(PlayerJoinEvent event){
+        Bukkit.getScheduler().runTaskLater(EventUtils.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                Player player = event.getPlayer();
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    if(player.getWorld() != p.getWorld()){
+                        HidePlayerFromTargets(p, player);
+                    }
+                    if(player.getWorld() == p.getWorld()){
+                        ShowPlayerForTargets(p, player);
+                    }
+                }
+            }
+        }, 5L);
+    };
+
 
     @EventHandler
     public void OnPlayerChat(AsyncPlayerChatEvent event){
