@@ -36,6 +36,7 @@ public class EventListener implements Listener {
         }
     }
 
+    @EventHandler
     public void OnPlayerChat(AsyncPlayerChatEvent event){
         if(ConfigData.getInstance().PerWorldChat){
             Player sender = event.getPlayer();
@@ -60,6 +61,14 @@ public class EventListener implements Listener {
                 }else{
                     sameworldlist.add(p);
                 }
+            }
+            for(Player p : diffworldlist){
+                //hide everyone in diff worlds from you
+                //its player to hide, target to send packet too
+                HidePlayerFromTargets(p, event.getPlayer());
+            }
+            for(Player p : sameworldlist){
+                ShowPlayerForTargets(p, event.getPlayer());
             }
             HidePlayerFromTargets(event.getPlayer(), diffworldlist);
             ShowPlayerForTargets(event.getPlayer(), sameworldlist);
@@ -92,6 +101,36 @@ public class EventListener implements Listener {
             } catch (Exception e) {
                 EventUtils.getInstance().log(Level.SEVERE, "Failed to send message to client! " +  e.toString());
             }
+        }
+    }
+
+    private static void HidePlayerFromTargets(Player p, Player target){
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
+        packet.setAction(PlayerInfoAction.REMOVE_PLAYER);
+        WrappedChatComponent chat = WrappedChatComponent.fromText(p.getDisplayName());
+        PlayerInfoData data = new PlayerInfoData(WrappedGameProfile.fromPlayer(p), p.getPing(), NativeGameMode.SURVIVAL, chat);
+        List<PlayerInfoData> array = new ArrayList<PlayerInfoData>();
+        array.add(data);
+        packet.setData(array);
+        try {
+            packet.sendPacket(target);
+        } catch (Exception e) {
+            EventUtils.getInstance().log(Level.SEVERE, "Failed to send message to client! " +  e.toString());
+        }
+    }
+
+    private static void ShowPlayerForTargets(Player p, Player target){
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
+        packet.setAction(PlayerInfoAction.ADD_PLAYER);
+        WrappedChatComponent chat = WrappedChatComponent.fromText(p.getDisplayName());
+        PlayerInfoData data = new PlayerInfoData(WrappedGameProfile.fromPlayer(p), p.getPing(), NativeGameMode.SURVIVAL, chat);
+        List<PlayerInfoData> array = new ArrayList<PlayerInfoData>();
+        array.add(data);
+        packet.setData(array);
+        try {
+            packet.sendPacket(target);
+        } catch (Exception e) {
+            EventUtils.getInstance().log(Level.SEVERE, "Failed to send message to client! " +  e.toString());
         }
     }
 
